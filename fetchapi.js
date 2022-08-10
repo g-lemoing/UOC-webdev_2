@@ -1,5 +1,8 @@
 loadCards();
 
+// Variables
+var duel = [];                    // Fighting cards array
+
 // Get an array of random numbers of Pokemons to be displayed
 function getRandomPokeNumbers(totalCards){
     // Constant values
@@ -52,7 +55,7 @@ function createCard(cardObj) {
     // Creem els objectes del grid i de la card
     let cardGrid = document.getElementById('cards-grid');
     let card = document.createElement('div');
-    card.setAttribute("id", "card");
+    card.setAttribute("id", cardObj.id);
     // Creem els elements de cada card: imatge, nom, atac i defensa
     let card_img = document.createElement('img');
     card_img.src = cardObj.img;
@@ -70,10 +73,20 @@ function createCard(cardObj) {
     card.appendChild(card_attack);
     card.appendChild(card_defense);
 
-    // Make card visibility hidden (card face down) if combat page
+    // Add class to card element
+    card.classList.add("card");
+    
+    // If combat page
     let pageName = location.pathname.split("/").slice(-1);
     if (pageName == "combat.html"){
+      // Add class to make card visibility hidden (card face down)
       card.classList.add("card-down");
+      // Set data-attributes for name, attack and defense values
+      card.dataset.name = cardObj.name;
+      card.dataset.attack = cardObj.attack;
+      card.dataset.defense = cardObj.defense;
+      // And add Event Listener - Click
+      card.addEventListener('click', cardUp)
     }
 
     // Afegim la card al grid --> Hauria de ser al forEach de creació de la grid de cards
@@ -82,13 +95,23 @@ function createCard(cardObj) {
 
 // Flip card up function
 function cardUp(card){
-  card.classList.add("card-up");
-  card.classList.remove("card-down");
+  console.dir(card.target);
+  // Make card visible
+  // card.classList.add("card-up");
+  // card.classList.remove("card-down");
+
+  // Add card to fighting cards array
+  duel.push(card.target.dataset);
+  // If array has two elements, show winner
+  if (duel.length == 2){
+    card1Wins(duel[0], duel[1]);
+  }
 }
 
 // Fight winner function
 function card1Wins(card1, card2){
-  if (card1.attack > card2.defense){
+  console.dir(card1);
+  if (parseInt(card1.attack) > parseInt(card2.defense)){
       alert(`${card1.name} ataca i guanya a ${card2.name}.`);
   }
   else{
@@ -173,11 +196,5 @@ function switchTheme(e){
   // Check theme when loading page
   document.addEventListener("DOMContentLoaded", () => checkTheme());
  
-  // Event Click on card
-  const cards = document.querySelectorAll('cards-grid');
-  console.dir(cards);
-  cards.forEach((card) => {card.addEventListener('click', cardUp)});
-
-
   // Desglosar creació de card (parametrizar si es de vista detalle o llistat?)
   //--> afegir Event listener "click" --> afegir card a cards-grid
