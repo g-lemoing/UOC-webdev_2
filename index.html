@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,22 +9,27 @@
     <link rel="stylesheet" href="styles.css">
     <script src="fetchapi.js"></script>
 </head>
-<body data-theme = "light">
+
+<body data-theme="light">
     <header>
         <nav>
             <ul class="ul-flex">
                 <li class="nav-button">
-                    <a href="index.html"><img class="icon" src="assets/logos/logo-home-black.svg" href="index.html"
-                            alt="Inici">Inici</a>
-                    </li>
+                    <a class="link" href="index.html"><img class="icon" src="assets/logos/logo-home-black.svg"
+                            href="index.html" alt="Inici">Inici</a>
+                </li>
                 <li class="nav-button">
-                    <a href="combat.html"><img class="icon" src="assets/logos/logo-fighting.svg" href="combat.html"
-                            alt="combat icon">Combat</a>
-                    </li>
+                    <a class="link" href="combat.html"><img class="icon" src="assets/logos/logo-fighting.svg"
+                            href="combat.html" alt="combat icon">Combat</a>
+                </li>
+                <li class="nav-button">
+                    <a id="enrere" href="javascript:history.back()"><img class="icon" src="assets/logos/back-arrow-icon.svg"
+                            href="javascript:history.back()" alt="back icon">Tornar</a>
+                </li>
             </ul>
 
-            <form class="nav-form">Escolliu un tema
-                <input type="radio" id="light" name="switcher" value="light" checked = "true">
+            <form class="nav-form">Escolliu un tema:
+                <input type="radio" id="light" name="switcher" value="light" checked="true">
                 <label for="light">clar</label>
                 <input type="radio" id="dark" name="switcher" value="dark">
                 <label for="dark">fosc</label>
@@ -36,28 +42,11 @@
     <main>
         <form id="cont-search">
             <label for="name_search">Cerqueu un Pokemon pel seu nom:</label>
-            <input type="search" name="name_search" id="name_search" onkeyup="filterCards()">
+            <input type="search" name="name_search" id="name_search">
         </form>
-        <div id = "cards-grid">
+        <div id="cards-grid">
         </div>
     </main>
-
-    <!-- Finestra modal per mostrar informació addicional d'un pokemon -->
-    <div id="poke-modal" class="modal" role="dialog" tabindex="-1">
-        <div class="modal-inner">
-          <div class="modal-header">
-            <h3 class="nom-poke">Hello World</h3>
-            <button class="modal-tancar" data-id="poke-modal" aria-label="tancar">
-              &times;
-            </button>
-          </div>
-          <p>
-            Natus earum velit ab nobis eos. Sed et exercitationem voluptatum omnis
-            dolor voluptates. Velit ut ipsam sunt ipsam nostrum. Maiores officia
-            accusamus qui sapiente. Dolor qui vel placeat dolor nesciunt quo dolor
-            dolores. Quo accusamus hic atque nisi minima.
-          </p>
-        </div>
-      </div>
 </body>
+
 </html>

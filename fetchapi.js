@@ -1,67 +1,66 @@
 window.onload = function () {
 
   // Variables
-  var duel = [];                    // Fighting cards array
-  const PATH_URL = "https://pokeapi.co/api/v2/pokemon/"       // Root URL path 
-  //******************************** MODAL *******************************************/
-  //Funció per obrir el Modal
-  const obrirModal = (e) => {
-    let pokeID = e.currentTarget.getAttribute("id");
+  let duel = [];                    // Fighting cards array
+  const PATH_URL = "https://pokeapi.co/api/v2/pokemon/";     // Root URL path 
+  let pageName = location.pathname.split("/").slice(-1);
+  let cardMode;
+  const body = document.getElementsByTagName('body')[0];
+  const element = document.getElementsByTagName("nav")[0];
+  const nodes = Array.from(element.getElementsByTagName("img"));
 
-    let fetchurl = PATH_URL + pokeID;                      // Build url + id Pokemon
+  // Mirem si teníem seleccionat el tema fosc o clar
 
-    fetch(fetchurl, showCard)                             // Fetch request
-      .then(response => response.json())
-      .then((data) => showCard(data));
+  switchTheme(checkTheme());
 
-    let modal = document.getElementById("poke-modal");
-    document.body.style.overflow = "hidden";
-    modal.setAttribute("obert", "true");
-    // Esdeveniment per tancar el modal si polsem la tecla ESC
-    document.addEventListener("keydown", tancarESC);
-    let overlay = document.createElement("div");
-    overlay.setAttribute("id", "modal-overlay");
-    document.body.appendChild(overlay);
-  };
+  /**** Carreguem una informació o altra a la pàgina segons l'URL ***************/
+  // Si estem a la pàgina d'index, consultem si hi ha algun paràmetre a la URL
+  if (pageName == "index.html") {
 
-  //Funció per tancar el modal
-  const tancarModal = () => {
-    let modal = document.getElementById("poke-modal");
-    document.body.style.overflow = "auto";
-    modal.removeAttribute("obert");
-    document.removeEventListener("keydown", tancarESC);
-    document.body.removeChild(document.getElementById("modal-overlay"));
-  };
+    const enrere = document.querySelector('#enrere');
+    const links = document.querySelectorAll('.link');
+    const cercador = document.querySelector('#cont-search');
+    let params = new URLSearchParams(document.location.search);
+    let pokeID = params.get("pokeID");
 
-  //Esdeveniment per tancar el Modal quan polsem la 'x'
-  document.getElementsByClassName("modal-tancar")[0].addEventListener("click", tancarModal);
-
-  //Funció per tancar el modal si polsem la tecla ESC
-  const tancarESC = (e) => {
-    if (e.keyCode == 27) {
-      tancarModal();
+    if (pokeID) {
+      cardMode = "complete";
+      document.getElementById("cards-grid").setAttribute("complete",true);
+      // mostrar l'enllaç per tornar enrera i ocultar el cercador
+      enrere.style.display = "block";
+      cercador.style.display = "none";
+      // mostrar els links només quan estem a la pàgina o ruta inicial (sense paràmetres a la url)
+      links.forEach(link => link.style.display = "none");
+      //Carreguem la informació del pokemon corresponent
+      let fetchurl = PATH_URL + pokeID;
+      fetchPokemon(fetchurl, createCard);
+    } else {
+      cardMode = "summary";
+      document.getElementById("cards-grid").setAttribute("complete",false);
+      // ocultar l'enllaç per tornar enrera i mostrar el cercador
+      enrere.style.display = "none";
+      cercador.style.display = "flex";
+      // mostrar els links només quan estem a la pàgina o ruta inicial (sense paràmetres a la url)
+      links.forEach(link => link.style.display = "block");
+      // carreguem les 10 cartes aleatories
+      loadCards();
     }
-  };
-
-  function showCard(cardData) {
-    console.log(cardData);
+  } else {
+    loadCards();
   }
-  /********************************* FI MODAL ******************************************/
 
-  loadCards();
 
   // Get an array of random numbers of Pokemons to be displayed
   function getRandomPokeNumbers(totalCards) {
     // Constant values
     const MAX_POKE_NUMBER = 905;                            // Max Pokemon Number
-    console.log('Hello fetchapi')
+
     // Variables
     let pokenumbers = [];                // Array of selected Pokemons
 
     // Build array of Pokemons 
     while (pokenumbers.length < totalCards) {
       let pokenumber = (Math.floor(Math.random() * MAX_POKE_NUMBER)).toString();
-      console.log(pokenumber);
       if (!pokenumbers.includes(pokenumber) && pokenumber > 0) {
         pokenumbers.push(pokenumber);
       }
@@ -79,51 +78,94 @@ window.onload = function () {
 
     pokenumbers.forEach(element => {
       let fetchurl = PATH_URL + element;                      // Build url + id Pokemon
-      console.log(fetchurl);
-
-      fetch(fetchurl, createCard)                             // Fetch request
-        .then(response => response.json())
-        .then(data => pokeResult = {
-          "id": data.id,
-          "name": data.name,
-          "img": data.sprites.front_default,
-          "img-back": data.sprites.back_default,
-          "attack": data.stats[1].base_stat,
-          "defense": data.stats[2].base_stat,
-          "types": data.types
-        })
-        .then(() => createCard(pokeResult))
+      fetchPokemon(fetchurl, createCard);
     });
   }
 
+  function fetchPokemon(fetchurl, createCard) {
+    fetch(fetchurl, createCard)                             // Fetch request
+      .then(response => response.json())
+      .then(data => pokeResult = {
+        "id": data.id,
+        "name": data.name,
+        "img": data.sprites.front_default,
+        "img_back": data.sprites.back_default,
+        "attack": data.stats[1].base_stat,
+        "defense": data.stats[2].base_stat,
+        "types": data.types
+      })
+      .then(() => createCard(pokeResult))
+  }
+
   function createCard(cardObj) {
-    console.log(cardObj.img);
     // Creem els objectes del grid i de la card
     let cardGrid = document.getElementById('cards-grid');
     let card = document.createElement('div');
     card.setAttribute("id", cardObj.id);
-    // Creem els elements de cada card: imatge, nom, atac i defensa
+    // Creem els elements i els afegim
+    
+    // Contenidor per les dues imatges
+    let img_cont = document.createElement("div");
+    img_cont.classList.add("img-container");
+    card.appendChild(img_cont);
+    //Imatge frontal
     let card_img = document.createElement('img');
     card_img.src = cardObj.img;
     card_img.alt = cardObj.name;
+    img_cont.appendChild(card_img);
+
+    //Imatge darrere
+    if (cardMode == "complete"){
+      let card_img_back = document.createElement('img');
+      card_img_back.src = cardObj.img_back;
+      card_img_back.alt = cardObj.name;
+      img_cont.appendChild(card_img_back);
+    }
+
+    //Nom del Pokemon
     let card_name = document.createElement('h2');
     card_name.innerHTML = (cardObj.name).charAt(0).toUpperCase() + cardObj.name.slice(1);
+    card.appendChild(card_name);
+
+    //Atac del Pokemon
     let card_attack = document.createElement('p');
     card_attack.innerHTML = "Atac: " + cardObj.attack.toString();
+    card.appendChild(card_attack);
+
+    //Defensa del Pokemon
     let card_defense = document.createElement('p');
     card_defense.innerHTML = "Defensa: " + cardObj.defense.toString();
-
-    // Afegim aquests 4 elements a la card
-    card.appendChild(card_img);
-    card.appendChild(card_name);
-    card.appendChild(card_attack);
     card.appendChild(card_defense);
+
+    //Tipus del Pokemon
+    if (cardMode == "complete"){
+      let tipus_array = [];
+      let card_types = document.createElement('p');
+      cardObj.types.forEach(function(tipus){
+        tipus_array.push(tipus.type.name);
+      });
+      card_types.innerHTML = "Tipus: " + tipus_array.join(', ');
+      card.appendChild(card_types);
+    }
+
+    if (cardMode == "summary") {
+      let card_link = document.createElement('a');
+      let info_icon = document.createElement('img');
+      //Li posem la classe a la icona depenent del tema clar o fosc
+      info_icon.classList.add((checkTheme()=="dark")?"icon-dark-theme":"icon");
+      info_icon.src = "assets/logos/info-icon.svg";
+      card_link.appendChild(info_icon);
+      card_link.setAttribute("href", "?pokeID=" + cardObj.id);
+      card_link.classList.add("link-com-boto");
+      card.appendChild(card_link);
+      nodes.push(info_icon);
+    }
+
 
     // Add class to card element
     card.classList.add("card");
 
     // If combat page
-    let pageName = location.pathname.split("/").slice(-1);
     if (pageName == "combat.html") {
       // Add class to make card visibility hidden (card face down)
       card.classList.add("card-down");
@@ -134,9 +176,6 @@ window.onload = function () {
       // And add Event Listener - Click
       card.addEventListener('click', cardUp)
     }
-
-    //Li afegim l'esdeveniment perquè surti el Modal quan cliquem la carta
-    card.addEventListener("click", obrirModal);
 
     // Afegim la card al grid --> Hauria de ser al forEach de creació de la grid de cards
     cardGrid.appendChild(card);
@@ -171,21 +210,20 @@ window.onload = function () {
   }
 
   // Filter cards by name
-  function filterCards() {
+  function filterCards(e) {
     // Declare variables
     let input, filter, cardsGrid, cards, h2, i, txtValue;
-    input = document.getElementById('name_search');
-    filter = input.value.toUpperCase();
-    cardsGrid = document.getElementById("cards-grid");
-    cards = cardsGrid.getElementsByTagName('div');
+  
+    filter = e.target.value.toUpperCase();
+    cards = document.getElementsByClassName('card');
 
     // Loop through all list items, and hide those who don't match the search query
     for (i = 0; i < cards.length; i++) {
       h2 = cards[i].getElementsByTagName("h2")[0];
       txtValue = h2.textContent || h2.innerText;
-      console.log(txtValue);
+
       if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        cards[i].style.display = "";
+        cards[i].style.display = "block";
       } else {
         cards[i].style.display = "none";
       }
@@ -193,12 +231,12 @@ window.onload = function () {
   }
 
   // Switch theme between light and dark
-  function switchTheme(e) {
-    console.log(e.target);
-    switch (e.target.value) {
+  function switchTheme(newTheme) {
+
+    switch (newTheme) {
       case "dark":
         body.setAttribute("data-theme", "dark");
-        console.log(typeof (nodes));
+
         nodes.forEach((node) => {
           node.classList.remove("icon");
           node.classList.add("icon-dark-theme");
@@ -225,31 +263,29 @@ window.onload = function () {
   // Check custom theme in local storage
   function checkTheme() {
     let theme = localStorage.getItem("customTheme");
+
     if (theme == null || theme != '') {
-      body.setAttribute("data-theme", theme);
       document.getElementById(theme).checked = true;
     }
+    return theme;
   }
 
   // Event listeners
   // Change theme listener
-  const body = document.getElementsByTagName('body')[0];
   const switcher = document.querySelectorAll('input[name = "switcher"]');
-  body.setAttribute('data-theme', 'light');
+
   switcher.forEach(
     (sw) => {
-      sw.addEventListener('change', switchTheme)
+      sw.addEventListener('change', canviTema)
     }
   )
-  // Change fill color icons in nav
-  const element = document.getElementsByTagName("nav")[0];
-  const nodes = Array.from(element.getElementsByTagName("img"));
 
-  // Check theme when loading page
-  document.addEventListener("DOMContentLoaded", () => checkTheme());
+  function canviTema(e) {
+    switchTheme(e.target.value);
+  }
 
-  // Desglosar creació de card (parametrizar si es de vista detalle o llistat?)
-  //--> afegir Event listener "click" --> afegir card a cards-grid
+  //Filtratge de cartes a mesura que anem escrivint a la caixa de text
+  document.getElementById("name_search").addEventListener("keyup",filterCards);
 
 };
 
