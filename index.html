@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokedex</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="fetchapi.js"></script>
 </head>
 <body data-theme = "light">
     <header>
@@ -38,11 +39,25 @@
             <input type="search" name="name_search" id="name_search" onkeyup="filterCards()">
         </form>
         <div id = "cards-grid">
-
-            <script src="fetchapi.js">
-
-            </script>
         </div>
     </main>
+
+    <!-- Finestra modal per mostrar informació addicional d'un pokemon -->
+    <div id="poke-modal" class="modal" role="dialog" tabindex="-1">
+        <div class="modal-inner">
+          <div class="modal-header">
+            <h3 class="nom-poke">Hello World</h3>
+            <button class="modal-tancar" data-id="poke-modal" aria-label="tancar">
+              &times;
+            </button>
+          </div>
+          <p>
+            Natus earum velit ab nobis eos. Sed et exercitationem voluptatum omnis
+            dolor voluptates. Velit ut ipsam sunt ipsam nostrum. Maiores officia
+            accusamus qui sapiente. Dolor qui vel placeat dolor nesciunt quo dolor
+            dolores. Quo accusamus hic atque nisi minima.
+          </p>
+        </div>
+      </div>
 </body>
 </html>

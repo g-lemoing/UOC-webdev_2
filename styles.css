@@ -200,3 +200,42 @@ ul{
     --card-bg-color: var(--lightgrey);
     --background-nav: var(--lightgrey);
 }
+
+/* CSS per al modal */
+.modal {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    z-index: 1;
+    float: left;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .modal[obert] {
+    display: flex;
+  }
+  .modal-inner {
+    background-color: white;
+    border-radius: 0.5em;
+    max-width: 600px;
+    padding: 2em;
+    margin: auto;
+  }
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid black;
+  }
+  #modal-overlay {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    background-color: black;
+    opacity: 0.5;  
+  }
