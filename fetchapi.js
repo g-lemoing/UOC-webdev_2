@@ -1,8 +1,19 @@
 window.onload = function () {
+
+  // Variables
+  var duel = [];                    // Fighting cards array
+  const PATH_URL = "https://pokeapi.co/api/v2/pokemon/"       // Root URL path 
   //******************************** MODAL *******************************************/
   //Funció per obrir el Modal
   const obrirModal = (e) => {
     let pokeID = e.currentTarget.getAttribute("id");
+
+    let fetchurl = PATH_URL + pokeID;                      // Build url + id Pokemon
+
+    fetch(fetchurl, showCard)                             // Fetch request
+      .then(response => response.json())
+      .then((data) => showCard(data));
+
     let modal = document.getElementById("poke-modal");
     document.body.style.overflow = "hidden";
     modal.setAttribute("obert", "true");
@@ -31,12 +42,13 @@ window.onload = function () {
       tancarModal();
     }
   };
-/********************************* FI MODAL ******************************************/
-  
-loadCards();
 
-  // Variables
-  var duel = [];                    // Fighting cards array
+  function showCard(cardData) {
+    console.log(cardData);
+  }
+  /********************************* FI MODAL ******************************************/
+
+  loadCards();
 
   // Get an array of random numbers of Pokemons to be displayed
   function getRandomPokeNumbers(totalCards) {
@@ -61,7 +73,6 @@ loadCards();
   function loadCards() {
     const CARDS = 10;                                           // Number of cards to be loaded on page
     const pokenumbers = getRandomPokeNumbers(CARDS);
-    const PATH_URL = "https://pokeapi.co/api/v2/pokemon/"       // Root URL path 
     var pokeResult;                                             // FetchAPI result object
 
     // Request from PokeAPI
@@ -130,6 +141,8 @@ loadCards();
     // Afegim la card al grid --> Hauria de ser al forEach de creació de la grid de cards
     cardGrid.appendChild(card);
   }
+
+
 
   // Flip card up function
   function cardUp(card) {
