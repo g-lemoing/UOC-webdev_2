@@ -179,7 +179,7 @@ window.onload = function () {
       // And add Event Listener - Click
       //Gir de carta quan la cliquem en la pàgina de combat
       card.addEventListener('click', function () {
-        this.classList.add('girada');
+        this.classList.add('card-up');
         // Add card to fighting cards array
         duel.push(this.dataset);
         // If array has two elements, show winner

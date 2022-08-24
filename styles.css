@@ -229,6 +229,6 @@ input {
     content-visibility: hidden;
 }
 
-.card.girada {
+.card.card-up {
     transform: rotateY(0deg);
 }
