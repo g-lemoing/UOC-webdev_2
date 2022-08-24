@@ -23,9 +23,10 @@ window.onload = function () {
     let params = new URLSearchParams(document.location.search);
     let pokeID = params.get("pokeID");
 
+
     if (pokeID) {
       cardMode = "complete";
-      document.getElementById("cards-grid").setAttribute("complete",true);
+      document.getElementById("cards-grid").setAttribute("complete", true);
       // mostrar l'enllaç per tornar enrera i ocultar el cercador
       enrere.style.display = "block";
       cercador.style.display = "none";
@@ -36,7 +37,7 @@ window.onload = function () {
       fetchPokemon(fetchurl, createCard);
     } else {
       cardMode = "summary";
-      document.getElementById("cards-grid").setAttribute("complete",false);
+      document.getElementById("cards-grid").setAttribute("complete", false);
       // ocultar l'enllaç per tornar enrera i mostrar el cercador
       enrere.style.display = "none";
       cercador.style.display = "flex";
@@ -44,6 +45,8 @@ window.onload = function () {
       links.forEach(link => link.style.display = "block");
       // carreguem les 10 cartes aleatories
       loadCards();
+      //Filtratge de cartes a mesura que anem escrivint a la caixa de text
+      document.getElementById("name_search").addEventListener("keyup", filterCards);
     }
   } else {
     loadCards();
@@ -103,7 +106,7 @@ window.onload = function () {
     let card = document.createElement('div');
     card.setAttribute("id", cardObj.id);
     // Creem els elements i els afegim
-    
+
     // Contenidor per les dues imatges
     let img_cont = document.createElement("div");
     img_cont.classList.add("img-container");
@@ -115,7 +118,7 @@ window.onload = function () {
     img_cont.appendChild(card_img);
 
     //Imatge darrere
-    if (cardMode == "complete"){
+    if (cardMode == "complete") {
       let card_img_back = document.createElement('img');
       card_img_back.src = cardObj.img_back;
       card_img_back.alt = cardObj.name;
@@ -138,21 +141,21 @@ window.onload = function () {
     card.appendChild(card_defense);
 
     //Tipus del Pokemon
-    if (cardMode == "complete"){
+    if (cardMode == "complete") {
       let tipus_array = [];
       let card_types = document.createElement('p');
-      cardObj.types.forEach(function(tipus){
+      cardObj.types.forEach(function (tipus) {
         tipus_array.push(tipus.type.name);
       });
       card_types.innerHTML = "Tipus: " + tipus_array.join(', ');
       card.appendChild(card_types);
     }
 
-    if (cardMode == "summary") {
+    if ((cardMode == "summary") && (pageName == "index.html")) {
       let card_link = document.createElement('a');
       let info_icon = document.createElement('img');
       //Li posem la classe a la icona depenent del tema clar o fosc
-      info_icon.classList.add((checkTheme()=="dark")?"icon-dark-theme":"icon");
+      info_icon.classList.add((checkTheme() == "dark") ? "icon-dark-theme" : "icon");
       info_icon.src = "assets/logos/info-icon.svg";
       card_link.appendChild(info_icon);
       card_link.setAttribute("href", "?pokeID=" + cardObj.id);
@@ -174,29 +177,27 @@ window.onload = function () {
       card.dataset.attack = cardObj.attack;
       card.dataset.defense = cardObj.defense;
       // And add Event Listener - Click
-      card.addEventListener('click', cardUp)
+      //Gir de carta quan la cliquem en la pàgina de combat
+      card.addEventListener('click', function () {
+        this.classList.add('girada');
+        // Add card to fighting cards array
+        duel.push(this.dataset);
+        // If array has two elements, show winner
+        if (duel.length == 2) {
+          card1Wins(duel[0], duel[1]);
+          duel=[];
+        }
+      });
+      //Detectem el final de la transició per canviar-li la classe
+      card.addEventListener('transitionend', function(event) {
+        this.classList.remove('card-down');
+    });
     }
 
     // Afegim la card al grid --> Hauria de ser al forEach de creació de la grid de cards
     cardGrid.appendChild(card);
   }
 
-
-
-  // Flip card up function
-  function cardUp(card) {
-    console.dir(card.target);
-    // Make card visible
-    // card.classList.add("card-up");
-    // card.classList.remove("card-down");
-
-    // Add card to fighting cards array
-    duel.push(card.target.dataset);
-    // If array has two elements, show winner
-    if (duel.length == 2) {
-      card1Wins(duel[0], duel[1]);
-    }
-  }
 
   // Fight winner function
   function card1Wins(card1, card2) {
@@ -213,7 +214,7 @@ window.onload = function () {
   function filterCards(e) {
     // Declare variables
     let input, filter, cardsGrid, cards, h2, i, txtValue;
-  
+
     filter = e.target.value.toUpperCase();
     cards = document.getElementsByClassName('card');
 
@@ -284,12 +285,6 @@ window.onload = function () {
     switchTheme(e.target.value);
   }
 
-  //Filtratge de cartes a mesura que anem escrivint a la caixa de text
-  document.getElementById("name_search").addEventListener("keyup",filterCards);
+
 
 };
-
-
-
-
-

@@ -1,35 +1,36 @@
 /* Default */
-:root{
+:root {
     --beige: beige;
-    --strong-beige:rgb(218, 218, 158);
-    --lightyellow:lightyellow;
+    --strong-beige: rgb(218, 218, 158);
+    --lightyellow: lightyellow;
     --darkgrey: #3d3d3d;
     --lightgrey: #4d4d4d;
     --yellow: yellow;
 
-    --text-default:#4e4e4e;
-    --card_border:#17301b;
+    --text-default: #4e4e4e;
+    --card_border: #17301b;
 }
 
-html{
+html {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
-body{
+body {
     margin: 0px;
     background-color: var(--bg-color);
     color: var(--text-color);
     width: 100%;
     height: 100%;
-    padding:0;
-    margin:0;
+    padding: 0;
+    margin: 0;
 }
+
 /* Main selectors */
-a{
+a {
     color: var(--text-color);
 }
 
-nav{
+nav {
     display: flex;
     background-color: var(--background-nav);
     padding: 0rem;
@@ -38,25 +39,27 @@ nav{
     vertical-align: middle;
 }
 
-nav > form > input{
+nav>form>input {
     margin: 0rem .1rem 0rem .5rem;
 }
-.icon{
+
+.icon {
     filter: invert(0%);
     /* fill: black; */
 }
 
-.icon-dark-theme{
+.icon-dark-theme {
     filter: invert(100%);
     /* fill: white; */
 }
 
-ul{
+ul {
     list-style: none;
 }
+
 /* Classes */
 
-.nav-form{
+.nav-form {
     display: flex;
     margin-left: auto;
     margin-right: 1rem;
@@ -64,12 +67,12 @@ ul{
     height: 3rem;
 }
 
-.nav-button{
+.nav-button {
     height: 3rem;
     padding: 0rem 0.5rem;
 }
 
-.nav-button > a{
+.nav-button>a {
     display: inline;
     width: 100%;
     height: 100%;
@@ -79,7 +82,7 @@ ul{
     z-index: 1;
 }
 
-.nav-button > a > img{
+.nav-button>a>img {
     position: relative;
     top: 15%;
     left: 0;
@@ -88,19 +91,20 @@ ul{
     padding: 0rem 0.25rem;
 }
 
-.nav-button:hover{
+.nav-button:hover {
     background-color: var(--bg-color);
 }
 
-.ul-flex{
+.ul-flex {
     display: flex;
     /* column-gap: 1rem; */
     margin: 0;
 }
 
 /* Cards */
-.card{
+.card {
     display: flex;
+    position: relative;
     flex-direction: column;
     justify-content: space-between;
     text-align: center;
@@ -108,20 +112,22 @@ ul{
     border: 2px solid grey;
     border-radius: 5px;
     background-color: var(--card-bg-color);
+    /*Estil per a l'efecte de gir */
+    transition: transform 1s;
 }
 
-.card > img {
+.card>img {
     height: 96px;
     width: 96px;
     align-self: center;
     margin-top: 1rem;
 }
 
-.card > p{
+.card>p {
     text-align: center;
 }
 
-.card > h2{
+.card>h2 {
     font-size: 2rem;
     font-weight: 600;
     height: 2.5rem;
@@ -132,56 +138,48 @@ ul{
 
 /* Cards - Combat.html */
 
-.card-down{
-    background-image: repeating-linear-gradient(-45deg, #ececec, #ececec 10px, #dedede 10px,#dedede 20px);
-    transform: rotateX(0deg);
-    content-visibility: hidden;
-    height: 100%;
-    z-index: 2;
-}
-
-.card-up{
-    transform: rotateX(180deg);
-    }
-
-.reload-button{
+.reload-button {
     font-family: inherit;
     font-size: 1.5rem;
     background-color: var(--background-nav);
-    color:var(--text-color);
+    color: var(--text-color);
     height: 3rem;
 }
+
 /* Items */
 
-#cards-grid{
+#cards-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     align-items: center;
     height: 400px;
     padding: 2vh 5vw;
     gap: 5vw;
+    perspective: 600px;
 }
 
-#cards-grid[complete = true]{
+#cards-grid[complete=true] {
     grid-template-columns: repeat(1, 1fr);
 }
 
-#cont-search{
+#cont-search {
     display: flex;
     justify-content: center;
     vertical-align: middle;
     padding: 1rem;
-    gap:5vw;
+    gap: 5vw;
     width: 100vw;
 }
 
-#cont-search > label, input{
+#cont-search>label,
+input {
     height: 2rem;
     vertical-align: middle;
 }
+
 /* Images */
 
-.img-cover{
+.img-cover {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -191,7 +189,7 @@ ul{
 }
 
 /* Define dark and light themes attributes */
-[data-theme = "light"]{
+[data-theme="light"] {
     --bg-color: var(--beige);
     --text-color: var(--darkgrey);
     --card-bg-color: var(--strong-beige);
@@ -199,7 +197,7 @@ ul{
 
 }
 
-[data-theme = "dark"]{
+[data-theme="dark"] {
     --bg-color: var(--darkgrey);
     --text-color: var(--yellow);
     --card-bg-color: var(--lightgrey);
@@ -209,15 +207,28 @@ ul{
 .link-com-boto {
     font: bold 11px Arial;
     text-decoration: none;
-    background-color:var(--bg-color);
+    background-color: var(--bg-color);
     color: var(--text-color);
     border-top: 1px solid #CCCCCC;
     border-right: 1px solid #333333;
     border-bottom: 1px solid #333333;
     border-left: 1px solid #CCCCCC;
     height: 2rem;
-  }
+}
 
-  .link-com-boto img{
-    width:2em;
-  }
+.link-com-boto img {
+    width: 2em;
+}
+
+/* Classes per a l'efecte de gir de la carta */
+
+.card.card-down {
+    cursor: pointer;
+    transform: rotateY(180deg);
+    background-image: repeating-linear-gradient(-45deg, #ececec, #ececec 10px, #dedede 10px, #dedede 20px);
+    content-visibility: hidden;
+}
+
+.card.girada {
+    transform: rotateY(0deg);
+}
