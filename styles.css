@@ -114,6 +114,7 @@ ul {
     background-color: var(--card-bg-color);
     /*Estil per a l'efecte de gir */
     transition: transform 1s;
+    transform-style: preserve-3d;
 }
 
 .card>img {
@@ -154,7 +155,7 @@ ul {
     align-items: center;
     height: 400px;
     padding: 2vh 5vw;
-    gap: 5vw;
+    gap: 2vw;
     perspective: 600px;
 }
 
@@ -222,13 +223,24 @@ input {
 
 /* Classes per a l'efecte de gir de la carta */
 
-.card.card-down {
-    cursor: pointer;
-    transform: rotateY(180deg);
-    background-image: repeating-linear-gradient(-45deg, #ececec, #ececec 10px, #dedede 10px, #dedede 20px);
-    content-visibility: hidden;
+.front,
+.back {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: block;
 }
 
-.card.card-up {
-    transform: rotateY(0deg);
+.card .back {
+    background-image: repeating-linear-gradient(-45deg, #ececec, #ececec 10px, #dedede 10px, #dedede 20px);
+}
+
+.card .front {
+    background: var(--card-bg-color);;
+    transform: rotateY( 180deg );
+}
+.card.flipped {
+    transform: rotateY( 180deg );
 }
