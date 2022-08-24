@@ -101,16 +101,41 @@ window.onload = function () {
   }
 
   function createCard(cardObj) {
-    // Creem els objectes del grid i de la card
     let cardGrid = document.getElementById('cards-grid');
+
+    // Creem l'element 'carta' que contindrà coses diferents segons si estiguem
+    // en la pàgina de combat o en la pàgina de l'índex
+
     let card = document.createElement('div');
+    // Add class to card element
+    card.classList.add("card");
     card.setAttribute("id", cardObj.id);
     // Creem els elements i els afegim
+    // Per al mode combat la carta tindrà una part de darrere
+    if (pageName == "combat.html") {
+      let card_back = document.createElement('div');
+      card_back.classList.add('back');
+      card.appendChild(card_back);
+    }
+
+    // I també una part frontal que serà igual a la de l'índex, però penjarà d'un lloc diferent
+    let card_front;
+    if (pageName == "combat.html"){
+      card_front = document.createElement('div');
+      card_front.classList.add('front');
+      card.appendChild(card_front);
+    }
+    // Guardem en 'elem_int' l'element on volem penjar el contingut de la carta:
+    //  Per al mode combat penjaran de l'element 'card_front'
+    //  Per al mode index penjaran directament de carta
+
+    let elem_int = (pageName == "combat.html")?card_front:card;
 
     // Contenidor per les dues imatges
     let img_cont = document.createElement("div");
     img_cont.classList.add("img-container");
-    card.appendChild(img_cont);
+    //Ho pengem en un lloc o en un altre depenent del mode
+    elem_int.appendChild(img_cont);
     //Imatge frontal
     let card_img = document.createElement('img');
     card_img.src = cardObj.img;
@@ -128,17 +153,17 @@ window.onload = function () {
     //Nom del Pokemon
     let card_name = document.createElement('h2');
     card_name.innerHTML = (cardObj.name).charAt(0).toUpperCase() + cardObj.name.slice(1);
-    card.appendChild(card_name);
+    elem_int.appendChild(card_name);
 
     //Atac del Pokemon
     let card_attack = document.createElement('p');
     card_attack.innerHTML = "Atac: " + cardObj.attack.toString();
-    card.appendChild(card_attack);
+    elem_int.appendChild(card_attack);
 
     //Defensa del Pokemon
     let card_defense = document.createElement('p');
     card_defense.innerHTML = "Defensa: " + cardObj.defense.toString();
-    card.appendChild(card_defense);
+    elem_int.appendChild(card_defense);
 
     //Tipus del Pokemon
     if (cardMode == "complete") {
@@ -148,7 +173,7 @@ window.onload = function () {
         tipus_array.push(tipus.type.name);
       });
       card_types.innerHTML = "Tipus: " + tipus_array.join(', ');
-      card.appendChild(card_types);
+      elem_int.appendChild(card_types);
     }
 
     if ((cardMode == "summary") && (pageName == "index.html")) {
@@ -160,18 +185,12 @@ window.onload = function () {
       card_link.appendChild(info_icon);
       card_link.setAttribute("href", "?pokeID=" + cardObj.id);
       card_link.classList.add("link-com-boto");
-      card.appendChild(card_link);
+      elem_int.appendChild(card_link);
       nodes.push(info_icon);
     }
 
-
-    // Add class to card element
-    card.classList.add("card");
-
     // If combat page
     if (pageName == "combat.html") {
-      // Add class to make card visibility hidden (card face down)
-      card.classList.add("card-down");
       // Set data-attributes for name, attack and defense values
       card.dataset.name = cardObj.name;
       card.dataset.attack = cardObj.attack;
@@ -179,21 +198,21 @@ window.onload = function () {
       // And add Event Listener - Click
       //Gir de carta quan la cliquem en la pàgina de combat
       card.addEventListener('click', function () {
-        this.classList.add('card-up');
+        this.classList.add('flipped');
         // Add card to fighting cards array
         duel.push(this.dataset);
         // If array has two elements, show winner
         if (duel.length == 2) {
           card1Wins(duel[0], duel[1]);
-          duel=[];
+          duel = [];
         }
       });
-      //Detectem el final de la transició per canviar-li la classe
-      card.addEventListener('transitionend', function(event) {
-        this.classList.remove('card-down');
-    });
     }
 
+    // En mode combat, afegim tots els elements a la part frontal
+    if (pageName == "combat.html"){
+      card.appendChild(card_front);
+    }
     // Afegim la card al grid --> Hauria de ser al forEach de creació de la grid de cards
     cardGrid.appendChild(card);
   }
