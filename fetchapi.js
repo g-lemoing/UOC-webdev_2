@@ -4,7 +4,7 @@ window.onload = function () {
   let duel = [];                    // Fighting cards array
   const PATH_URL = "https://pokeapi.co/api/v2/pokemon/";     // Root URL path 
   let pageName = location.pathname.split("/").slice(-1);
-  let cardMode;
+  let cardMode = "summary";
   const body = document.getElementsByTagName('body')[0];
   const element = document.getElementsByTagName("nav")[0];
   const nodes = Array.from(element.getElementsByTagName("img"));
