@@ -1,3 +1,6 @@
+/* Fonts */
+@import url('http://fonts.cdnfonts.com/css/pokemon-solid');
+
 /* Default */
 :root {
     --beige: beige;
@@ -109,7 +112,7 @@ ul {
     justify-content: center;
     text-align: center;
     align-items: center;
-    height: 300px;
+    height: 310px;
     border: 2px solid grey;
     border-radius: 5px;
     background-color: var(--card-bg-color);
@@ -129,13 +132,13 @@ ul {
     text-align: center;
 }
 
-.card>h2 {
+.card h2 {
     font-size: 2rem;
     font-weight: 600;
-    height: 2.5rem;
-    overflow: clip;
-    margin-block-start: .5rem;
-    margin-block-end: .5rem;
+    margin-block-start: -.5rem;
+    margin-block-end: -.3rem;
+    font-family: 'Pokemon Solid', sans-serif;
+    text-shadow: var(--vora-text);
 }
 
 /* Cards - Combat.html */
@@ -196,6 +199,8 @@ input {
     --text-color: var(--darkgrey);
     --card-bg-color: var(--strong-beige);
     --background-nav: var(--strong-beige);
+    --vora-text: 2px 0 #fff, -2px 0 #fff, 0 2px #fff, 0 -2px #fff,
+    1px 1px #fff, -1px -1px #fff, 1px -1px #fff, -1px 1px #fff;
 
 }
 
@@ -204,6 +209,8 @@ input {
     --text-color: var(--yellow);
     --card-bg-color: var(--lightgrey);
     --background-nav: var(--lightgrey);
+    --vora-text: 2px 0 #000, -2px 0 #000, 0 2px #000, 0 -2px #000,
+    1px 1px #000, -1px -1px #000, 1px -1px #000, -1px 1px #000;
 }
 
 .link-com-boto {
