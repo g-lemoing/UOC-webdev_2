@@ -139,6 +139,7 @@ ul {
     margin-block-end: -.3rem;
     font-family: 'Pokemon Solid', sans-serif;
     text-shadow: var(--vora-text);
+    white-space: nowrap;
 }
 
 /* Cards - Combat.html */
@@ -200,7 +201,7 @@ input {
     --card-bg-color: var(--strong-beige);
     --background-nav: var(--strong-beige);
     --vora-text: 2px 0 #fff, -2px 0 #fff, 0 2px #fff, 0 -2px #fff,
-    1px 1px #fff, -1px -1px #fff, 1px -1px #fff, -1px 1px #fff;
+        1px 1px #fff, -1px -1px #fff, 1px -1px #fff, -1px 1px #fff;
 
 }
 
@@ -210,7 +211,7 @@ input {
     --card-bg-color: var(--lightgrey);
     --background-nav: var(--lightgrey);
     --vora-text: 2px 0 #000, -2px 0 #000, 0 2px #000, 0 -2px #000,
-    1px 1px #000, -1px -1px #000, 1px -1px #000, -1px 1px #000;
+        1px 1px #000, -1px -1px #000, 1px -1px #000, -1px 1px #000;
 }
 
 .link-com-boto {
@@ -246,9 +247,11 @@ input {
 }
 
 .card .front {
-    background: var(--card-bg-color);;
-    transform: rotateY( 180deg );
+    background: var(--card-bg-color);
+    ;
+    transform: rotateY(180deg);
 }
+
 .card.flipped {
-    transform: rotateY( 180deg );
+    transform: rotateY(180deg);
 }
