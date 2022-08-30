@@ -111,8 +111,8 @@ window.onload = function () {
       .then(data => pokeResult = {
         "id": data.id,
         "name": data.name,
-        "img": data.sprites.front_default,
-        "img_back": data.sprites.back_default,
+        "img": (data.sprites.front_default)?data.sprites.front_default:"assets/logos/no-image.png",
+        "img_back": (data.sprites.back_default)?data.sprites.back_default:"assets/logos/no-image.png",
         "attack": data.stats[1].base_stat,
         "defense": data.stats[2].base_stat,
         "types": data.types
