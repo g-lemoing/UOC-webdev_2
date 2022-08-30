@@ -187,12 +187,15 @@ window.onload = function () {
 
     //Tipus del Pokemon
     if (cardMode == "complete") {
-      let tipus_array = [];
-      let card_types = document.createElement('p');
+      let card_types = document.createElement('div');
+      card_types.classList.add("tipus-pokemon")
       cardObj.types.forEach(function (tipus) {
-        tipus_array.push(tipus.type.name);
+        let imgType = document.createElement('img');
+        imgType.setAttribute("src","assets/tipus/" + tipus.type.name + ".png");
+        imgType.setAttribute("title",tipus.type.name);
+        imgType.setAttribute("alt",tipus.type.name);
+        card_types.appendChild(imgType);
       });
-      card_types.innerHTML = "Tipus: " + tipus_array.join(', ');
       elem_int.appendChild(card_types);
     }
 
