@@ -26,6 +26,8 @@ window.onload = function () {
 
     if (pokeID) {
       cardMode = "complete";
+      // Guardem en LocalStorage que volem conservar els Pokemon
+      localStorage.setItem("preservePokemon", "true");
       document.getElementById("cards-grid").setAttribute("complete", true);
       // mostrar l'enllaç per tornar enrera i ocultar el cercador
       enrere.style.display = "block";
@@ -68,13 +70,31 @@ window.onload = function () {
         pokenumbers.push(pokenumber);
       }
     }
+    //Guardem els números de Pokemon generats al LocalStorage
+    localStorage.setItem("currentPokemons", pokenumbers.join(","));
     return pokenumbers;
   }
 
   // Get Pokemon data from fetch API
   function loadCards() {
-    const CARDS = 10;                                           // Number of cards to be loaded on page
-    const pokenumbers = getRandomPokeNumbers(CARDS);
+    const CARDS = 10;
+    let pokenumbers = [];
+    //Comprovem si venim de la pàgina de combat
+    if(pageName == "index.html"){
+      let conservarPokemons = localStorage.getItem("preservePokemon");
+      console.log(conservarPokemons);
+      if(conservarPokemons == "true"){
+        localStorage.setItem("preservePokemon", "false");
+        pokenumbers = localStorage.getItem("currentPokemons").split(",");
+      }
+      else {
+        pokenumbers = getRandomPokeNumbers(CARDS);
+      }
+    } else {
+      pokenumbers = getRandomPokeNumbers(CARDS);
+    }
+                                             // Number of cards to be loaded on page
+    console.log(pokenumbers);
     var pokeResult;                                             // FetchAPI result object
 
     // Request from PokeAPI
@@ -283,10 +303,11 @@ window.onload = function () {
   // Check custom theme in local storage
   function checkTheme() {
     let theme = localStorage.getItem("customTheme");
-
-    if (theme == null || theme != '') {
-      document.getElementById(theme).checked = true;
+    console.log(theme);
+    if (theme == null || theme == '') {
+      theme = "light";
     }
+    document.getElementById(theme).checked = true;
     return theme;
   }
 
@@ -303,7 +324,5 @@ window.onload = function () {
   function canviTema(e) {
     switchTheme(e.target.value);
   }
-
-
 
 };
