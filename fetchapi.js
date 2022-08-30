@@ -175,15 +175,39 @@ window.onload = function () {
     card_name.innerHTML = (cardObj.name).charAt(0).toUpperCase() + cardObj.name.slice(1);
     elem_int.appendChild(card_name);
 
+    //Div per als estats
+    let div_stats = document.createElement('div');
+    div_stats.classList.add("estats");
+
     //Atac del Pokemon
-    let card_attack = document.createElement('p');
-    card_attack.innerHTML = "Atac: " + cardObj.attack.toString();
-    elem_int.appendChild(card_attack);
+    let div_attack = document.createElement('div');
+    div_attack.classList.add("card-attack");
+    let img_attack = document.createElement('img');
+    img_attack.setAttribute("src","assets/logos/atac.svg");
+    img_attack.classList.add((checkTheme() == "dark") ? "icon-dark-theme" : "icon");
+    //L'afegim a l'array d'elements que han de canviar quan canvia el tema de fons
+    nodes.push(img_attack);
+    let card_attack = document.createElement('span');
+    card_attack.textContent = cardObj.attack.toString();
+    div_attack.appendChild(img_attack);
+    div_attack.appendChild(card_attack);
+    div_stats.appendChild(div_attack);
 
     //Defensa del Pokemon
-    let card_defense = document.createElement('p');
-    card_defense.innerHTML = "Defensa: " + cardObj.defense.toString();
-    elem_int.appendChild(card_defense);
+    let div_defense = document.createElement('div');
+    div_defense.classList.add("card-defense");
+    let img_defense = document.createElement('img');
+    img_defense.setAttribute("src","assets/logos/defensa.svg");
+    img_defense.classList.add((checkTheme() == "dark") ? "icon-dark-theme" : "icon");
+    //L'afegim a l'array d'elements que han de canviar quan canvia el tema de fons
+    nodes.push(img_defense);
+    let card_defense = document.createElement('span');
+    card_defense.textContent = cardObj.defense.toString();
+    div_defense.appendChild(img_defense);
+    div_defense.appendChild(card_defense);
+    div_stats.appendChild(div_defense);
+
+    elem_int.appendChild(div_stats);
 
     //Tipus del Pokemon
     if (cardMode == "complete") {
@@ -209,6 +233,7 @@ window.onload = function () {
       card_link.setAttribute("href", "?pokeID=" + cardObj.id);
       card_link.classList.add("link-com-boto");
       elem_int.appendChild(card_link);
+      //L'afegim a l'array d'elements que han de canviar quan canvia el tema de fons
       nodes.push(info_icon);
     }
 

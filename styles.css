@@ -1,5 +1,6 @@
 /* Fonts */
 @import url('http://fonts.cdnfonts.com/css/pokemon-solid');
+@import url('https://fonts.googleapis.com/css2?family=Secular+One&display=swap');
 
 /* Default */
 :root {
@@ -121,7 +122,7 @@ ul {
     transform-style: preserve-3d;
 }
 
-.card>img {
+.card>img:first-of-type {
     height: 96px;
     width: 96px;
     align-self: center;
@@ -231,7 +232,8 @@ input {
 }
 
 .link-com-boto img {
-    width: 2em;
+    width: 2.7em;
+    padding: 0 .2em;
 }
 
 /* Classes per a l'efecte de gir de la carta */
@@ -252,8 +254,11 @@ input {
 
 .card .front {
     background: var(--card-bg-color);
-    ;
     transform: rotateY(180deg);
+}
+
+.card .front .img-container img {
+    padding-top: 2em;
 }
 
 .card.flipped {
@@ -261,8 +266,31 @@ input {
 }
 
 /* Estil per a les imatges del tipus de Pokemon */
+.card .estats {
+    display: flex;
+    justify-content: space-evenly;
+}
 
 .card .tipus-pokemon img{
     height: 3em;
     margin: 0 1em;
+}
+
+.card .card-attack, .card .card-defense {
+    display: flex;
+    padding: .5em .3em;
+    align-items: center;
+    font-size: 2em;
+    font-weight: bolder;
+    font-family: 'Secular One', sans-serif;
+}
+
+.card .card-attack img, .card .card-defense img{
+    height: 45px;
+    flex-grow:0;
+    flex-shrink:0;
+}
+
+.card .card-defense img{
+    padding-right: .5em;
 }
