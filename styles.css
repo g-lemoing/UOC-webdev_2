@@ -168,6 +168,10 @@ ul {
     grid-template-columns: repeat(1, 1fr);
 }
 
+#cards-grid[complete=true] .card h2 {
+    margin-block-start: -2rem;
+}
+
 #cont-search {
     display: flex;
     justify-content: center;
@@ -254,4 +258,11 @@ input {
 
 .card.flipped {
     transform: rotateY(180deg);
+}
+
+/* Estil per a les imatges del tipus de Pokemon */
+
+.card .tipus-pokemon img{
+    height: 3em;
+    margin: 0 1em;
 }
