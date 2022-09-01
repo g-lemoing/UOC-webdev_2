@@ -34,6 +34,9 @@ a {
     color: var(--text-color);
 }
 
+h1{
+    text-align: center;
+}
 nav {
     display: flex;
     background-color: var(--background-nav);
@@ -188,6 +191,11 @@ input {
     vertical-align: middle;
 }
 
+#winner-message{
+    display: none;
+    height: 1.5rem;
+    place-content: center;
+}
 /* Images */
 
 .img-cover {

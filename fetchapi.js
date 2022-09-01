@@ -240,7 +240,7 @@ window.onload = function () {
     // If combat page
     if (pageName == "combat.html") {
       // Set data-attributes for name, attack and defense values
-      card.dataset.name = cardObj.name;
+      card.dataset.name = (cardObj.name).charAt(0).toUpperCase() + cardObj.name.slice(1);
       card.dataset.attack = cardObj.attack;
       card.dataset.defense = cardObj.defense;
       // And add Event Listener - Click
@@ -251,7 +251,7 @@ window.onload = function () {
         duel.push(this.dataset);
         // If array has two elements, show winner
         if (duel.length == 2) {
-          card1Wins(duel[0], duel[1]);
+          setTimeout(card1Wins(duel[0], duel[1]), 1000);
           duel = [];
         }
       });
@@ -269,12 +269,17 @@ window.onload = function () {
   // Fight winner function
   function card1Wins(card1, card2) {
     console.dir(card1);
+    let message = document.getElementById("winner-message");
+  
     if (parseInt(card1.attack) > parseInt(card2.defense)) {
-      alert(`${card1.name} ataca i guanya a ${card2.name}.`);
+      //alert(`${card1.name} ataca i guanya a ${card2.name}.`);
+      message.innerHTML = card1.name + ' ataca i guanya a ' + card2.name + '!';
     }
     else {
-      alert(`${card2.name} ataca i guanya a ${card1.name}.`);
+      //alert(`${card2.name} ataca i guanya a ${card1.name}.`);
+      message.innerHTML = card2.name + ' ataca i guanya a ' + card1.name + '!';
     }
+    message.style.display = "block";
   }
 
   // Filter cards by name
