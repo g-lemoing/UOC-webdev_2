@@ -247,8 +247,10 @@ window.onload = function () {
       //Gir de carta quan la cliquem en la pàgina de combat
       card.addEventListener('click', function () {
         this.classList.add('flipped');
-        // Add card to fighting cards array
-        duel.push(this.dataset);
+        // Add card to fighting cards array and check the card has not been clicked already
+        if (duel.length == 0 || (duel.length == 1 && duel[0] != this.dataset)){
+          duel.push(this.dataset);
+        }
         // If array has two elements, show winner
         if (duel.length == 2) {
           setTimeout(card1Wins(duel[0], duel[1]), 1000);
@@ -265,20 +267,11 @@ window.onload = function () {
     cardGrid.appendChild(card);
   }
 
-
-  // Fight winner function
+    // Fight winner function
   function card1Wins(card1, card2) {
-    console.dir(card1);
+    let win = (parseInt(card1.attack) > parseInt(card2.defense))? ' guanya a ' : ' perd contra ';
     let message = document.getElementById("winner-message");
-  
-    if (parseInt(card1.attack) > parseInt(card2.defense)) {
-      //alert(`${card1.name} ataca i guanya a ${card2.name}.`);
-      message.innerHTML = card1.name + ' ataca i guanya a ' + card2.name + '!';
-    }
-    else {
-      //alert(`${card2.name} ataca i guanya a ${card1.name}.`);
-      message.innerHTML = card2.name + ' ataca i guanya a ' + card1.name + '!';
-    }
+    message.innerHTML = card1.name + ' ataca i' + win + card2.name + '!'
     message.style.display = "block";
   }
 
