@@ -239,6 +239,8 @@ window.onload = function () {
 
     // If combat page
     if (pageName == "combat.html") {
+      // Disable reload button
+      document.getElementById("reload_btn").disabled = true;
       // Set data-attributes for name, attack and defense values
       card.dataset.name = (cardObj.name).charAt(0).toUpperCase() + cardObj.name.slice(1);
       card.dataset.attack = cardObj.attack;
@@ -255,6 +257,7 @@ window.onload = function () {
         if (duel.length == 2) {
           setTimeout(card1Wins(duel[0], duel[1]), 1000);
           duel = [];
+          document.getElementById("reload_btn").disabled = false;
         }
       });
     }
