@@ -79,7 +79,7 @@ window.onload = function () {
   function loadCards() {
     const CARDS = 10;
     let pokenumbers = [];
-    //Comprovem si venim de la pàgina de combat
+    //Comprovem si venim de la pàgina de  
     if(pageName == "index.html"){
       let conservarPokemons = localStorage.getItem("preservePokemon");
       console.log(conservarPokemons);
@@ -110,7 +110,7 @@ window.onload = function () {
       .then(response => response.json())
       .then(data => pokeResult = {
         "id": data.id,
-        "name": data.name,
+        "name": (data.name.indexOf('-') == -1) ? data.name : (data.name).substring(0, data.name.indexOf('-')),
         "img": (data.sprites.front_default)?data.sprites.front_default:"assets/logos/no-image.png",
         "img_back": (data.sprites.back_default)?data.sprites.back_default:"assets/logos/no-image.png",
         "attack": data.stats[1].base_stat,
