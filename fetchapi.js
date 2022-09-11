@@ -54,7 +54,6 @@ window.onload = function () {
     loadCards();
   }
 
-
   // Get an array of random numbers of Pokemons to be displayed
   function getRandomPokeNumbers(totalCards) {
     // Constant values
@@ -77,7 +76,7 @@ window.onload = function () {
 
   // Get Pokemon data from fetch API
   function loadCards() {
-    const CARDS = 10;
+    const CARDS = 10;                           // Number of cards to be loaded on page
     let pokenumbers = [];
     //Comprovem si venim de la pàgina de  
     if(pageName == "index.html"){
@@ -93,7 +92,7 @@ window.onload = function () {
     } else {
       pokenumbers = getRandomPokeNumbers(CARDS);
     }
-                                             // Number of cards to be loaded on page
+                                             
     console.log(pokenumbers);
     var pokeResult;                                             // FetchAPI result object
 
@@ -132,8 +131,9 @@ window.onload = function () {
     card.setAttribute("id", cardObj.id);
     // Creem els elements i els afegim
     // Per al mode combat la carta tindrà una part de darrere
+    let card_back;
     if (pageName == "combat.html") {
-      let card_back = document.createElement('div');
+      card_back = document.createElement('div');
       card_back.classList.add('back');
       card.appendChild(card_back);
     }
@@ -232,7 +232,9 @@ window.onload = function () {
       card_link.appendChild(info_icon);
       card_link.setAttribute("href", "?pokeID=" + cardObj.id);
       card_link.classList.add("link-com-boto");
-      elem_int.appendChild(card_link);
+      // elem_int.appendChild(card_link);
+      img_cont.appendChild(card_link);
+
       //L'afegim a l'array d'elements que han de canviar quan canvia el tema de fons
       nodes.push(info_icon);
     }
@@ -332,7 +334,7 @@ window.onload = function () {
   // Check custom theme in local storage
   function checkTheme() {
     let theme = localStorage.getItem("customTheme");
-    console.log(theme);
+    // console.log(theme);
     if (theme == null || theme == '') {
       theme = "light";
     }
