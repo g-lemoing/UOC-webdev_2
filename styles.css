@@ -3,6 +3,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Secular+One&display=swap');
 
 /* Default */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 :root {
     --beige: beige;
     --strong-beige: rgb(218, 218, 158);
@@ -10,7 +16,6 @@
     --darkgrey: #3d3d3d;
     --lightgrey: #4d4d4d;
     --yellow: yellow;
-
     --text-default: #4e4e4e;
     --card_border: #17301b;
 }
@@ -40,7 +45,7 @@ h1{
 nav {
     display: flex;
     background-color: var(--background-nav);
-    padding: 0rem;
+    padding: 0vh 2vw;
     gap: 1rem;
     align-items: center;
     vertical-align: middle;
@@ -50,21 +55,26 @@ nav>form>input {
     margin: 0rem .1rem 0rem .5rem;
 }
 
-.icon {
-    filter: invert(0%);
-    /* fill: black; */
-}
-
-.icon-dark-theme {
-    filter: invert(100%);
-    /* fill: white; */
-}
-
 ul {
     list-style: none;
 }
 
 /* Classes */
+
+.icon {
+    filter: invert(0%);
+}
+
+.icon-dark-theme {
+    filter: invert(100%);
+}
+
+.img-container{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 40%;
+}
 
 .nav-form {
     display: flex;
@@ -104,11 +114,11 @@ ul {
 
 .ul-flex {
     display: flex;
-    /* column-gap: 1rem; */
     margin: 0;
 }
 
 /* Cards */
+
 .card {
     display: flex;
     position: relative;
@@ -116,10 +126,11 @@ ul {
     justify-content: center;
     text-align: center;
     align-items: center;
-    height: 310px;
+    height: 265px;
     border: 2px solid grey;
     border-radius: 5px;
     background-color: var(--card-bg-color);
+
     /*Estil per a l'efecte de gir */
     transition: transform 1s;
     transform-style: preserve-3d;
@@ -139,8 +150,6 @@ ul {
 .card h2 {
     font-size: 2rem;
     font-weight: 600;
-    margin-block-start: -.5rem;
-    margin-block-end: -.3rem;
     font-family: 'Pokemon Solid', sans-serif;
     text-shadow: var(--vora-text);
     white-space: nowrap;
@@ -162,18 +171,29 @@ ul {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     align-items: center;
-    height: 400px;
-    padding: 2vh 5vw;
-    gap: 2vw;
+    padding: 2vh 2vw;
+    gap: 2vh 2vw;
     perspective: 600px;
 }
 
 #cards-grid[complete=true] {
     grid-template-columns: repeat(1, 1fr);
+    justify-items: center;
 }
 
+#cards-grid[complete=true] .card {
+    height: auto;
+    width: 250px;
+}
+
+#cards-grid[complete=true] .img-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 0;
+}
 #cards-grid[complete=true] .card h2 {
-    margin-block-start: -2rem;
+    margin-block-start: -1.5rem;
 }
 
 #cont-search {
@@ -202,12 +222,14 @@ input {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 10rem;
     display: grid;
+    margin: 1em 0em;
+    gap: 10%;
     place-content: center;
 }
 
 /* Define dark and light themes attributes */
+
 [data-theme="light"] {
     --bg-color: var(--beige);
     --text-color: var(--darkgrey);
@@ -265,28 +287,34 @@ input {
     transform: rotateY(180deg);
 }
 
-.card .front .img-container img {
+/* .card .front .img-container img {
     padding-top: 2em;
-}
+} */
 
 .card.flipped {
     transform: rotateY(180deg);
 }
 
 /* Estil per a les imatges del tipus de Pokemon */
+
 .card .estats {
     display: flex;
     justify-content: space-evenly;
+    gap: 10%;
+}
+
+.front .estats{
+    gap: 0;
 }
 
 .card .tipus-pokemon img{
     height: 3em;
-    margin: 0 1em;
+    margin: 0.5em 1em;
 }
 
 .card .card-attack, .card .card-defense {
     display: flex;
-    padding: .5em .3em;
+    padding: .5em 0em;
     align-items: center;
     font-size: 2em;
     font-weight: bolder;
@@ -300,5 +328,28 @@ input {
 }
 
 .card .card-defense img{
-    padding-right: .5em;
+    padding-right: .2em;
+}
+
+/* Responsive ----------------- Media queries */
+
+@media only screen and (max-width: 1100px){
+    
+    #cards-grid{
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media only screen and (max-width: 900px){
+    
+    #cards-grid{
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media only screen and (max-width: 680px){
+    
+    #cards-grid{
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
