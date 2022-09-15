@@ -1,10 +1,14 @@
 window.onload = function () {
 
   // Variables
-  let duel = [];                    // Fighting cards array
-  const PATH_URL = "https://pokeapi.co/api/v2/pokemon/";     // Root URL path 
+  let duel = [];                                                          // Fighting cards array
+  const PATH_URL = "https://pokeapi.co/api/v2/pokemon/";                  // Root URL path 
+  const PATH_URL_POKE_NR = "https://pokeapi.co/api/v2/pokemon-species";   // URL path to get total number of available pokemons
   let pageName = location.pathname.split("/").slice(-1);
   let cardMode = "summary";
+  // Inicialitzem max numero de pokemons disponibles comprovant memòria local
+  var maxPokeNumber = (localStorage.getItem("maxPokeNr") != null && localStorage.getItem("maxPokeNr") >0)?
+    localStorage.getItem("maxPokeNr") : 0;
   const body = document.getElementsByTagName('body')[0];
   const element = document.getElementsByTagName("nav")[0];
   const nodes = Array.from(element.getElementsByTagName("img"));
@@ -45,26 +49,41 @@ window.onload = function () {
       cercador.style.display = "flex";
       // mostrar els links només quan estem a la pàgina o ruta inicial (sense paràmetres a la url)
       links.forEach(link => link.style.display = "block");
-      // carreguem les 10 cartes aleatories
-      loadCards();
+
+      // iniciem càrrega de les 10 cartes aleatories
+      // Si no tenim el valor de pokemons disponibles en local storage, cridem api per obtenir-lo primer.
+      // Sinó carreguem directament les cartes
+      if (maxPokeNumber == 0){
+        getAvailablePokemons(PATH_URL_POKE_NR, loadCards);
+      }
+      else{
+        loadCards();
+      }
+
       //Filtratge de cartes a mesura que anem escrivint a la caixa de text
       document.getElementById("name_search").addEventListener("keyup", filterCards);
     }
   } else {
-    loadCards();
+      // Si som a la pàgina combat.html,
+      // iniciem càrrega de les 10 cartes aleatories
+      // Si no tenim el valor de pokemons disponibles en local storage, cridem api per obtenir-lo primer.
+      // Sinó carreguem directament les cartes
+      if (maxPokeNumber == 0){
+        getAvailablePokemons(PATH_URL_POKE_NR, loadCards);
+      }
+      else{
+        loadCards();
+      }
   }
 
   // Get an array of random numbers of Pokemons to be displayed
   function getRandomPokeNumbers(totalCards) {
-    // Constant values
-    const MAX_POKE_NUMBER = 905;                            // Max Pokemon Number
-
     // Variables
     let pokenumbers = [];                // Array of selected Pokemons
 
     // Build array of Pokemons 
     while (pokenumbers.length < totalCards) {
-      let pokenumber = (Math.floor(Math.random() * MAX_POKE_NUMBER)).toString();
+      let pokenumber = (Math.floor(Math.random() * maxPokeNumber)).toString();
       if (!pokenumbers.includes(pokenumber) && pokenumber > 0) {
         pokenumbers.push(pokenumber);
       }
@@ -299,6 +318,17 @@ window.onload = function () {
         cards[i].style.display = "none";
       }
     }
+  }
+
+  // Get max number of Pokemons function
+  function getAvailablePokemons(fetchurl, loadCards) {
+    fetch(fetchurl, loadCards)                             // Fetch request
+      .then(response => response.json())
+      .then(data => {
+        maxPokeNumber = data.count;
+        localStorage.setItem("maxPokeNr", maxPokeNumber);   // Store max available pokemons in local storage
+      })
+      .then(() => loadCards())
   }
 
   // Switch theme between light and dark
